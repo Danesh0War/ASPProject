@@ -1,0 +1,57 @@
+﻿
+@model PetShopDan.Models.Animal;
+@{
+    ViewData["Title"] = "Edit";
+    var categories = ViewBag.categories;
+    var error = ViewBag.Error;
+}
+
+<h1>Edit</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(model=>model.AnimalId);
+
+                <div class="mb-3">
+                    <label for="AnimalName" class="form-label">Animal Name</label>
+             
+                    @Html.TextBoxFor(model => model.AnimalName, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AnimalName)
+                </div>
+                <div class="mb-3">
+                    <label for="Age" class="form-label">Age</label>
+                    @Html.TextBoxFor(model => model.Age, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Age)
+                 
+                </div>
+                <div class="mb-3">
+                    <label for="picture" class="form-label">Picture</label>
+                    <input name="picture" id="picture" type="file" class="form-control" accept="image/*"  />
+                    <img src="~/Images/@Model.PictureName" alt="Current Picture" style="width: 200px; height: auto;" />
+
+
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                 @Html.TextAreaFor(model => model.Description, 3, 3, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Description)
+               </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    @Html.DropDownList("CategoryId", new SelectList(categories, "CategoryId", "CategoryName"), new { @class = "form-select" })
+
+                
+                    @Html.ValidationMessageFor(model => model.CategoryId)
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            }
+        </div>
+    </div>
+</div>
+@if (error != null)
+{
+    <p style="color:red;">@error</p>
+}

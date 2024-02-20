@@ -1,0 +1,96 @@
+﻿@using PetShopDan.Models;
+@model Animal
+@{
+    ViewBag.Title = "AnimalPage";
+    var error = ViewBag.Error;
+}
+<h1>AnimalPage</h1>
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 12px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        max-width: 100px;
+        max-height: 100px;
+        width: auto;
+        height: auto;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100px;
+        margin-top: 10px;
+    }
+
+    button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+</style>
+
+<body>
+ 
+    <table>
+        <tr>
+            <th>CategoryName</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Description</th>
+            <th>All Comments</th>
+        </tr>
+        <tr>
+            <td>@Model.Category?.CategoryName</td>
+            <td>@Model.AnimalName</td>
+            <td>@Model.Age</td>
+            <td>@Model.Description</td>
+            <td>
+                @foreach (var comment in Model.Comments!)
+                {
+                    <p>@comment.Text</p>
+                }
+            </td>
+        </tr>
+    </table>
+    @using (Html.BeginForm("AddComment", "Home"))
+    {
+        @Html.HiddenFor(model => model.AnimalId)
+        <textarea id="newcomment" name="newcomment" required></textarea>
+        <span id="comment-error" style="display:none; color:red;"></span><br />
+        <button class="btn btn-primary" type="submit">Add Comment</button>
+    }
+    @if (error != null)
+    {
+        <p style="color:red;">@error</p>
+    }
+    <script src="~/Scripts/addComment.js"></script>
+</body>

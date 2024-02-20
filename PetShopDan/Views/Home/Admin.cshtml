@@ -1,0 +1,76 @@
+﻿
+
+@using PetShopDan.Models;
+@model IEnumerable<PetShopDan.Models.Category>
+@{
+    ViewBag.Title = "Admin";
+}
+
+<link href="~/css/stylesheet.css" rel="stylesheet" />
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        img {
+            max-width: 100px; 
+            max-height: 100px; 
+            width: auto;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="mb-4">Admin</h1>
+    <a href="@Url.Action("AddAnimal")" class="btn btn-primary" >Add Animal</a> 
+  
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+        </button>
+        <ul class="dropdown-menu">
+            @{
+                foreach (Category category in Model)
+                {
+                    <li><a class="dropdown-item" asp-route-categoryId="@category.CategoryId">@category.CategoryName</a></li>
+                }
+            }
+        </ul>
+    </div>
+    <table id="AnimalPage">
+        <tr>
+            <th>AnimalPicture</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var animal in ViewBag.Animals)
+        {
+            <tr class="contains-image" data-category="@animal.Category?.CategoryId">
+                <td><img src="~/Images/@animal.PictureName" alt="image"></td>
+                <td>@animal.AnimalName</td>
+       <td>@animal.Age</td>
+       <td>@animal.Description</td>
+       <td><a asp-action="Delete" asp-route-AnimalId="@animal.AnimalId">Delete</a></td>
+       <td><a asp-action="Edit" asp-route-AnimalId="@animal.AnimalId">Edit</a></td>
+               
+            </tr>
+        }
+    </table>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+</body>
